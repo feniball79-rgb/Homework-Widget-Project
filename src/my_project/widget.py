@@ -50,3 +50,27 @@ if __name__ == "__main__":
 # Visa Platinum 8990922113665229
 # Visa Gold 5999414228426353
 # Счет 73654108430135874305
+
+
+from datetime import datetime
+
+
+def get_date(date_string: str) -> str:
+    """
+    Преобразует строку с датой из формата ISO
+    в формат ДД.ММ.ГГГГ
+
+    Args:
+        date_string (str): Дата в формате "2024-03-11T02:26:18.671407"
+
+    Returns:
+        str: Дата в формате "11.03.2024"
+    """
+    # Парсим строку в объект datetime
+    date_obj = datetime.fromisoformat(date_string)
+
+    # Форматируем в нужный формат
+    return date_obj.strftime("%d.%m.%Y")
+
+
+print(get_date("2024-03-11T02:26:18.67140"))
