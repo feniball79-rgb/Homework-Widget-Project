@@ -1,6 +1,7 @@
 def get_mask_card_number(card_number: str) -> str:
     """Функция принимает номер карты клиента банка и маскирует часть цифр под звёздочками.
     Выводит замаскированный номер в формате ХХХХ ХХ** **** ХХХХ.
+    :rtype: str
     """
     card_num = str(card_number)
     if card_num == "":
@@ -16,10 +17,10 @@ def get_mask_card_number(card_number: str) -> str:
     return nbr_mask_parts
 
 
-if __name__ == "__main__":
-
-    result = get_mask_card_number("7000792289606361")
-    print(result)
+# if __name__ == "__main__":
+#
+#     result = get_mask_card_number("7000792289606361")
+#     print(result)
 
 
 def get_mask_account(acc_nmbr: str) -> str:
@@ -29,18 +30,22 @@ def get_mask_account(acc_nmbr: str) -> str:
     nmbr_str = str(acc_nmbr)
 
     if nmbr_str == "":
-        raise ValueError("Пустое значение вводить недопустимо. Введите 20 цифр номера счёта.")
+        raise ValueError("Пустое значение вводить недопустимо. " "Введите 20 цифр номера счёта БЕЗ пробелов.")
     if not nmbr_str.isdigit():
-        raise ValueError("Вводить можно только цифры - не буквы! Введите 20 цифр номера счёта.")
+        raise ValueError("Ввод номеров счёта или карты необходимо производить раздельно от букв!")
     if len(nmbr_str) != 20:
-        raise ValueError("Номер счёта должен состоять из 20 цифр. Введите 20 цифр номера счёта.")
+        raise ValueError(
+            "Не верное количество введённых цифр номера. "
+            "Номер счёта должен состоять из 20 цифр. "
+            "Номер карты должен состоять из 16 цифр."
+        )
 
     masked_nmbr = "**" + nmbr_str[-4:]
 
     return masked_nmbr
 
 
-if __name__ == "__main__":
-
-    result = get_mask_account("73654108430135874305")
-    print(result)
+# if __name__ == "__main__":
+#
+#     result = get_mask_account("73654108430135874305")
+#     print(result)
