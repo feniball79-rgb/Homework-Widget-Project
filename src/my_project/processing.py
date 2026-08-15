@@ -34,7 +34,6 @@ def filter_by_state(records: List[Dict[str, Any]], state_mode: str = "EXECUTED")
 #     )
 
 
-
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 
