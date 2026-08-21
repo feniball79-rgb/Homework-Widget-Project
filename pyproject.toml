@@ -17,6 +17,10 @@ mypy = "^2.3.0"
 black = "^26.5.1"
 isort = "^8.0.1"
 
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^7.1.0"
+pytest = "^9.1.1"
+
 [tool.poetry]
 packages = [{include = "my_project", from = "src"}]
 
