@@ -8,7 +8,7 @@ def mask_account_card(data_receiver: str) -> str:
     if data_receiver == "":
         raise ValueError("Нельзя вводить пустые значения")
     if data_receiver.isspace():
-        raise ValueError("Слова и номер должны быть разделены пробелом")
+        raise ValueError("Слова и номер должны быть разделены пробелом. Введите слова и номер через пробел.")
 
     spaces_count = 0
     for dat in data_receiver:
@@ -35,11 +35,11 @@ def mask_account_card(data_receiver: str) -> str:
         return f"{pay_system_str} {get_mask_account(f"{nomer}")}"
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
+#     result = mask_account_card("Счет 73654108430135874305")
+#     print(result)
 
-    result = mask_account_card("Счет 7365410843013582")
-    print(result)
-
+# Примеры ввода данных.
 # Счет 73654108430135874305
 # Visa Platinum 7000792289606361
 # Maestro 1596837868705199
@@ -50,6 +50,7 @@ if __name__ == "__main__":
 # Visa Platinum 8990922113665229
 # Visa Gold 5999414228426353
 # Счет 73654108430135874305
+# Счет 7365410843013582
 
 
 from datetime import datetime
@@ -66,6 +67,9 @@ def get_date(date_string: str) -> str:
     Returns:
         str: Дата в формате "11.03.2024"
     """
+    if not date_string or date_string == " " or date_string.isspace():
+        raise ValueError("Пустое значение параметра неприемлемо. Введите дату в формате '2024-03-11T02:26:18.671407'")
+
     # Парсим строку в объект datetime
     date_obj = datetime.fromisoformat(date_string)
 
@@ -74,4 +78,7 @@ def get_date(date_string: str) -> str:
 
 
 if __name__ == "__main__":
-    print(get_date("2024-03-11T02:26:18.67140"))
+    print(get_date("  "))
+
+
+# "2024-03-11T02:26:18.67140"

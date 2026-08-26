@@ -17,10 +17,10 @@ def get_mask_card_number(card_number: str) -> str:
     return nbr_mask_parts
 
 
-# if __name__ == "__main__":
-#
-#     result = get_mask_card_number("7000792289606361")
-#     print(result)
+if __name__ == "__main__":
+
+    result = get_mask_card_number("7000792289606361")
+    print(result)
 
 
 def get_mask_account(acc_nmbr: str) -> str:
@@ -31,8 +31,13 @@ def get_mask_account(acc_nmbr: str) -> str:
 
     if nmbr_str == "":
         raise ValueError("Пустое значение вводить недопустимо. " "Введите 20 цифр номера счёта БЕЗ пробелов.")
+    if nmbr_str.isspace():
+        raise ValueError("Нельзя вводить только пробел")
     if not nmbr_str.isdigit():
-        raise ValueError("Ввод номеров счёта или карты необходимо производить раздельно от букв!")
+        raise ValueError(
+            "Ввод номеров счёта или карты необходимо производить раздельно от букв: "
+            "сначала слова - и через пробел - номер (16 или 20 цифр)!"
+        )  # эта строка для работы mask_account_card
     if len(nmbr_str) != 20:
         raise ValueError(
             "Не верное количество введённых цифр номера. "
@@ -45,7 +50,10 @@ def get_mask_account(acc_nmbr: str) -> str:
     return masked_nmbr
 
 
-# if __name__ == "__main__":
-#
-#     result = get_mask_account("73654108430135874305")
-#     print(result)
+if __name__ == "__main__":
+
+    result = get_mask_account("73654108430135874305")
+    print(result)
+
+
+# "73654108430135874305"
