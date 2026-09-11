@@ -7,7 +7,7 @@ def get_mask_card_number(card_number: str) -> str:
     if card_num == "":
         raise ValueError("Нельзя вводить пустые значения")
     if not str(card_num).isdigit():
-        raise ValueError("Номар карты должен состоять ТОЛЬКО из цифры")
+        raise ValueError("Номер карты должен состоять ТОЛЬКО из цифры")
     if len(str(card_num)) != 16:
         raise ValueError("Номер карты должен содержать ровно 16 символов")
 
