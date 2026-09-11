@@ -2,7 +2,7 @@
 [project]
 name = "my-project"
 version = "0.1.0"
-description = "Homework: 9.1; 9.2; "
+description = "Homework: "
 project.authors = "Denis Kolyasnikov <kolyasnikovdenis@mail.ru>"
 readme = "README.md"
 
@@ -58,5 +58,3 @@ exclude = '''
   )/
 )
 '''
-
-
