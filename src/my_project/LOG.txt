@@ -46,3 +46,5 @@ Error: Функция 'add_iti_ons', аргументы: (((10, 101), {'ghj'}), 
 Error: Функция 'add_iti_ons', аргументы: (((10, 101), {'5,4,': 3}), {}), остановлена ошибкой: <<unsupported operand type(s) for /: 'tuple' and 'dict'>>
 Функция 'add_iti_ons' запущена: Ok 
 Функция 'add_iti_ons' завершена: Ok 
+Функция 'add_iti_ons' запущена: Ok 
+Функция 'add_iti_ons' завершена: Ok 
