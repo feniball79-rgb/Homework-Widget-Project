@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 ALLOWED_STATES = {"EXECUTED", "CANCELED"}  # можно расширить, если появятся новые статусы
 
