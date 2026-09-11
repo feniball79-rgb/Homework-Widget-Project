@@ -1,1 +1,48 @@
-
+Процесс 'add_iti_ons' запущен: Ok 
+Error process : Процесс 'add_iti_ons', с аргументами ((10, 0), {}) остановлен из-за: <<division by zero>>
+Процесс 'add_iti_ons' запущен: Ok 
+Error process : Процесс 'add_iti_ons', с аргументами ((10, '8'), {}) остановлен из-за: <<unsupported operand type(s) for /: 'int' and 'str'>>
+Процесс 'add_iti_ons' запущен: Ok 
+Error process : Процесс 'add_iti_ons', с аргументами (('10', 0), {}) остановлен из-за: <<unsupported operand type(s) for /: 'str' and 'int'>>
+Процесс 'add_iti_ons' запущен: Ok 
+Процесс 'add_iti_ons' завершён: Ok 
+Функция 'add_iti_ons' запущена: Ok 
+Функция 'add_iti_ons' завершена: Ok 
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((1, 0), {}), остановлена из-за: <<division by zero>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((1, '0'), {}), остановлена из-за: <<unsupported operand type(s) for /: 'int' and 'str'>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((17,), {}), остановлена из-за: <<add_iti_ons() missing 1 required positional argument: 'b'>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((17,), {}), остановлена из-за: <<add_iti_ons() missing 1 required positional argument: 'b'>>
+Функция 'add_iti_ons' запущена: Ok 
+Функция 'add_iti_ons' завершена: Ok 
+Функция 'add_iti_ons' запущена: Ok 
+Функция 'add_iti_ons' завершена: Ok 
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((1.7, 0), {}), остановлена из-за: <<float division by zero>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((), {}), остановлена из-за: <<add_iti_ons() missing 2 required positional arguments: 'a' and 'b'>>
+Функция 'add_iti_ons' запущена: Ok 
+Функция 'add_iti_ons' завершена: Ok 
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((10, 0), {}), остановлена ошибкой: <<division by zero>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((10, 0), {}), остановлена ошибкой: <<division by zero>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((10, 0), {}), остановлена ошибкой: <<division by zero>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((10, '5'), {}), остановлена ошибкой: <<unsupported operand type(s) for /: 'int' and 'str'>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: ((10, Ellipsis), {}), остановлена ошибкой: <<unsupported operand type(s) for /: 'int' and 'ellipsis'>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: (((10, 101), {'ghj'}), {}), остановлена ошибкой: <<unsupported operand type(s) for /: 'tuple' and 'set'>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: (((10, 101), {'ghj'}), {}), остановлена ошибкой: <<unsupported operand type(s) for /: 'tuple' and 'set'>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: (((10, 101), {'ghj'}), {}), остановлена ошибкой: <<unsupported operand type(s) for /: 'tuple' and 'set'>>
+Функция 'add_iti_ons' запущена: Ok 
+Error: Функция 'add_iti_ons', аргументы: (((10, 101), {'5,4,': 3}), {}), остановлена ошибкой: <<unsupported operand type(s) for /: 'tuple' and 'dict'>>
+Функция 'add_iti_ons' запущена: Ok 
+Функция 'add_iti_ons' завершена: Ok 

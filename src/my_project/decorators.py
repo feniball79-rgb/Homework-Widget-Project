@@ -1,68 +1,74 @@
 from functools import wraps
-from typing import Any, Callable
-
-# Напишите декоратор log, который будет автоматически логировать начало и конец -
-# - выполнения функции, а также ее результаты или возникшие ошибки.
-
-# Если filename задан, логи записываются в указанный файл.
-# Если filename не задан, логи выводятся в консоль.
-
-# Логирование должно включать:
-# Имя функции и результат выполнения при успешной операции.
-# Имя функции, тип возникшей ошибки и входные параметры, если выполнение функции привело к ошибке.
+from typing import Any
 
 
-def log(filename: object = None) -> Callable[[Any], Callable[[tuple[Any, ...], dict[str, Any]], Any | None]]:
+def log(filename: Any) -> Any:
     """
-    Декоратор для логирования процессов функции в консоль или в созданный файл..
-    :rtype: None
+    Декоратор для логирования процессов функции в консоль или в созданный файл,
+    и перехвата, обработки возникающих исключений.
+    :rtype: Any
+    :input: Any
     """
-    def logger(func) -> Callable[[tuple[Any, ...], dict[str, Any]], Any | None]:
 
-        # noinspection PyTypeChecker
+    def logger(func: Any) -> Any:
+        """
+        :type func: Any
+        """
+
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
 
-            info_massage_start = f"Процесс {func.__name__} запущен: Ok\n"
-            info_massage_finish = f"Процесс {func.__name__} завершён: Ok"
-            info_massage_error = f"Процесс {func.__name__} остановлен из_за ошибки: "
+            info_massage_start = f"Функция '{func.__name__}' запущена: Ok"
+            info_massage_finish = f"Функция '{func.__name__}' завершена: Ok"
+            info_massage_error = f"Функция '{func.__name__}', аргументы: {args, kwargs}, остановлена ошибкой:"
 
-            if filename:                                              # Если filename ЗАДАН -- пишем в файл.
+            # Запись лога об успешном запуске функции
+            if filename:
+
+                # Если filename ЗАДАН -- пишем в файл.
                 with open(filename, "a", encoding="utf-8") as f:
-                    f.write(info_massage_start)
-            else:                                                     # Если filename НЕ задан -- выводим в консоль.
+                    f.write(f"{info_massage_start} \n")
+
+            # Если filename НЕ задан -- выводим в консоль.
+            else:
                 print(info_massage_start)
 
+            # Запуск функции с обработкой исключений.
             try:
                 result = func(*args, **kwargs)
-                if filename:                                         # Если filename ЗАДАН -- пишем в файл.
+
+                # Запись лога(в файл|в консоль) об успешном завершении функции.
+                if filename:
                     with open(filename, "a", encoding="utf-8") as f:
                         f.write(f"{info_massage_finish} \n")
-                else:                                                # Если filename НЕ задан -- выводим в консоль.
+                else:
                     print(info_massage_finish)
                 return result
 
+            # Отлов исключений.
             except Exception as e:
-                print(f"Что-то заклинило из-за: <<{e}>> ")
 
-                if filename:                                         # Если filename ЗАДАН -- пишем в файл.
+                # Запись логов(в файл|в консоль) о возникших исключениях.
+                if filename:
                     with open(filename, "a", encoding="utf-8") as f:
-                        f.write(f"{info_massage_error} <<{e}>>\n")
-                else:                                                # Если filename НЕ задан -- выводим в консоль.
-                    print(f"{info_massage_error} <<{e}>>")
+                        f.write(f"Error: {info_massage_error} <<{e}>>\n")
+                        print(f"Программу заклинило по причине ошибки: <<{e}>>")
+                # Отлов и обработка исключений
+                else:
+                    raise Exception(f"{info_massage_error} {e}")
+
+                return None, "GAME OVER"
 
         return wrapper
 
     return logger
 
 
+if __name__ == "__main__":
 
+    @log(filename="LOG.txt")  # (filename="LOG.txt")
+    def add_iti_ons(a: Any, b: Any) -> Any:
+        return f"ОТВЕТ: {a / b}"
 
-@log()   # (filename="LOG.txt")
-def additions(a: int, b: int) -> str:
-    return f"ОТВЕТ: {a / b}"
-
-
-# noinspection PyTypeChecker
-result_fin = additions(10, 0)
-print(result_fin)
+    result_fin = add_iti_ons(10, 101)
+    print(result_fin)
