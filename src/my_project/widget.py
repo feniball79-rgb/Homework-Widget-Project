@@ -78,7 +78,7 @@ def get_date(date_string: str) -> str:
 
 
 if __name__ == "__main__":
-    print(get_date("2024-03-11T02:26:18.67140"))
+    print(get_date("  "))
 
 
 # "2024-03-11T02:26:18.67140"

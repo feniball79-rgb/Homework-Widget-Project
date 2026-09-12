@@ -7,7 +7,7 @@ def get_mask_card_number(card_number: str) -> str:
     if card_num == "":
         raise ValueError("Нельзя вводить пустые значения")
     if not str(card_num).isdigit():
-        raise ValueError("Номер карты должен состоять ТОЛЬКО из цифры")
+        raise ValueError("Номар карты должен состоять ТОЛЬКО из цифры")
     if len(str(card_num)) != 16:
         raise ValueError("Номер карты должен содержать ровно 16 символов")
 
@@ -24,9 +24,8 @@ if __name__ == "__main__":
 
 
 def get_mask_account(acc_nmbr: str) -> str:
-    """Функция принимает строку с номером счёта в банке, маскирует цифры под звёздочками
+    """Функция принимает строку с нимером счёта в банке, маскирует цифры под звёздочками
     возвращает 2 звёздочки и последние 4 цифры номера счёта.
-    :rtype: str
     """
     nmbr_str = str(acc_nmbr)
 
@@ -38,7 +37,7 @@ def get_mask_account(acc_nmbr: str) -> str:
         raise ValueError(
             "Ввод номеров счёта или карты необходимо производить раздельно от букв: "
             "сначала слова - и через пробел - номер (16 или 20 цифр)!"
-        )  # эта строка текста ошибки - для работы функции mask_account_card в модуле widget.py
+        )  # эта строка для работы mask_account_card
     if len(nmbr_str) != 20:
         raise ValueError(
             "Не верное количество введённых цифр номера. "
