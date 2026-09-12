@@ -51,6 +51,7 @@ def filter_by_state(records: List[Dict[str, Any]], state_mode: str = "EXECUTED")
 
 # print(filter_by_state([], state_mode="EXECUTED"))
 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
@@ -71,16 +72,16 @@ def sort_by_date(records: List[Dict[str, Any]], descending: bool = True) -> List
     def get_sort_key(record: Dict[str, Any]) -> Tuple[int, Optional[datetime]]:
         date_str = record.get("date")
         if not date_str:
-            return (1, None)
+            return 1, None
 
         try:
             if "." in str(date_str):
                 dt = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%f")
             else:
                 dt = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
-            return (0, dt)
+            return 0, dt
         except (ValueError, TypeError):
-            return (1, None)
+            return 1, None
 
     return sorted(records, key=get_sort_key, reverse=descending)
 
