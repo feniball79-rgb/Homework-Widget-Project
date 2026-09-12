@@ -2,7 +2,7 @@ from functools import wraps
 from typing import Any
 
 
-def log(filename: Any) -> Any:
+def log(filename=None) -> Any:
     """
     Декоратор для логирования процессов функции в консоль или в созданный файл,
     и перехвата, обработки возникающих исключений.
@@ -18,9 +18,8 @@ def log(filename: Any) -> Any:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
 
-            info_massage_start = f"Функция '{func.__name__}' запущена: Ok"
-            info_massage_finish = f"Функция '{func.__name__}' завершена: Ok"
-            info_massage_error = f"Функция '{func.__name__}', аргументы: {args, kwargs}, остановлена ошибкой:"
+            info_massage_start = f"'{func.__name__}' started"
+            info_massage_finish = f"'{func.__name__}' Ok"
 
             # Запись лога об успешном запуске функции
             if filename:
@@ -51,13 +50,13 @@ def log(filename: Any) -> Any:
                 # Запись логов(в файл|в консоль) о возникших исключениях.
                 if filename:
                     with open(filename, "a", encoding="utf-8") as f:
-                        f.write(f"Error: {info_massage_error} <<{e}>>\n")
-                        print(f"Программу заклинило по причине ошибки: <<{e}>>")
+                        f.write(f"'{func.__name__}'error: {e}  Inputs:{args, kwargs}\n")
+
                 # Отлов и обработка исключений
                 else:
-                    raise Exception(f"{info_massage_error} {e}")
+                    raise Exception(f"'{func.__name__}'error: {e}. Inputs:{args, kwargs}")
 
-                return None, "GAME OVER"
+                return print(f"'{func.__name__}'error: {e}. Inputs:{args, kwargs}")
 
         return wrapper
 
@@ -66,9 +65,9 @@ def log(filename: Any) -> Any:
 
 if __name__ == "__main__":
 
-    @log(filename="LOG.txt")  # (filename="LOG.txt")
+    @log()  # (filename="LOG.txt")
     def add_iti_ons(a: Any, b: Any) -> Any:
         return f"ОТВЕТ: {a / b}"
 
-    result_fin = add_iti_ons(10, 101)
+    result_fin = add_iti_ons(7, 5)
     print(result_fin)
