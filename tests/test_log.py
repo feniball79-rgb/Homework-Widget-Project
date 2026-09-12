@@ -24,8 +24,13 @@ def test_log_():
     with pytest.raises(Exception, match="unsupported operand type"):
         for_testing_foo(1, "0")
 
+    # ====== ТЕСТ 4: Вызов исключения - отсутствие аргументов в вызываемой функции.
 
-# ====== ТЕСТ 4: Ошибка в функции — лог в файл ======
+    with pytest.raises(Exception, match="missing 2 required positional arguments"):
+        for_testing_foo()
+
+
+# ====== ТЕСТ 5: Ошибка в функции — лог в файл ======
 
 
 def test_error_file(tmp_path):
@@ -42,13 +47,13 @@ def test_error_file(tmp_path):
 
     result = divide(10, 0)
 
-    assert result == (None, "GAME OVER")
+    assert result is None
     content = log_file.read_text(encoding="utf-8")
-    assert "ошибк" in content.lower()
+    assert "by zero" in content.lower()
     assert "divide" in content
 
 
-# ====== ТЕСТ 5: Декоратор сохраняет имя функции ======
+# ====== ТЕСТ 6: Декоратор сохраняет имя функции ======
 
 
 def test_preserves_name():
@@ -68,7 +73,7 @@ def test_preserves_name():
     assert my_function.__doc__ == "Докстринг функции."
 
 
-# ====== ТЕСТ 6: Успешный вызов — лог в файл ======
+# ====== ТЕСТ 7: Успешный вызов — лог в файл ======
 
 
 def test_success_file(tmp_path):
@@ -94,6 +99,6 @@ def test_success_file(tmp_path):
 
     # Читаем содержимое файла
     content = log_file.read_text(encoding="utf-8")
-    assert "запущен" in content
-    assert "завершен" in content
+    assert "started" in content
+    assert "Ok" in content
     assert "add" in content
