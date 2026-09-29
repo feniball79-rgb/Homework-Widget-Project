@@ -1,62 +1,50 @@
 from functools import wraps
-from typing import Any
+from typing import Any, Callable, Optional
 
 
-def log(filename=None) -> Any:
+def log(filename: Optional[str] = None) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
     Декоратор для логирования процессов функции в консоль или в созданный файл,
     и перехвата, обработки возникающих исключений.
-    :rtype: Any
-    :input: Any
     """
 
-    def logger(func: Any) -> Any:
-        """
-        :type func: Any
-        """
-
+    def logger(func: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
+            info_message_start = f"'{func.__name__}' started"
+            info_message_finish = f"'{func.__name__}' Ok"
 
-            info_massage_start = f"'{func.__name__}' started"
-            info_massage_finish = f"'{func.__name__}' Ok"
-
-            # Запись лога об успешном запуске функции
+            # Логирование начала
             if filename:
-
-                # Если filename ЗАДАН -- пишем в файл.
                 with open(filename, "a", encoding="utf-8") as f:
-                    f.write(f"{info_massage_start} \n")
-
-            # Если filename НЕ задан -- выводим в консоль.
+                    f.write(f"{info_message_start}\n")
+                print(info_message_start)
             else:
-                print(info_massage_start)
+                print(info_message_start)
 
-            # Запуск функции с обработкой исключений.
             try:
                 result = func(*args, **kwargs)
 
-                # Запись лога(в файл|в консоль) об успешном завершении функции.
+                # Логирование успеха
                 if filename:
                     with open(filename, "a", encoding="utf-8") as f:
-                        f.write(f"{info_massage_finish} \n")
-                else:
-                    print(info_massage_finish)
+                        f.write(f"{info_message_finish}\n")
+                print(info_message_finish)
+
                 return result
 
-            # Отлов исключений.
             except Exception as e:
+                error_msg = f"'{func.__name__}' error: {e}. Inputs: {args}, {kwargs}"
 
-                # Запись логов(в файл|в консоль) о возникших исключениях.
                 if filename:
                     with open(filename, "a", encoding="utf-8") as f:
-                        f.write(f"'{func.__name__}'error: {e}  Inputs:{args, kwargs}\n")
-
-                # Отлов и обработка исключений
+                        f.write(f"{error_msg}\n")
+                    # Важно: НЕ возвращаем print(...), он всегда None
+                    raise  # пробрасываем исключение дальше, чтобы не скрывать ошибку
                 else:
-                    raise Exception(f"'{func.__name__}'error: {e}. Inputs:{args, kwargs}")
-
-                return print(f"'{func.__name__}'error: {e}. Inputs:{args, kwargs}")
+                    # В консоль: печатаем и пробрасываем
+                    print(error_msg)
+                    raise
 
         return wrapper
 
@@ -65,8 +53,10 @@ def log(filename=None) -> Any:
 
 if __name__ == "__main__":
 
-    @log()  # (filename="LOG.txt")
-    def add_iti_ons(a: Any, b: Any) -> Any:
+    @log()  # filename="LOG.txt"
+    def add_iti_ons(a: int | float, b: int | float) -> str:
+        if b == 0:
+            raise ZeroDivisionError("Деление на ноль")
         return f"ОТВЕТ: {a / b}"
 
     result_fin = add_iti_ons(7, 5)
