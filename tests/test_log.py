@@ -3,66 +3,83 @@ import pytest
 from my_project.decorators import log
 
 
-# noinspection PyTypeChecker
-def test_log_():
+def test_log_success_console(capsys):
+    """Успешный вызов без файла — лог в консоль, результат возвращается."""
 
-    # ====== ТЕСТ 1: Работоспособность декоратора @log.
     @log(filename=None)
     def for_testing_foo(a: int, b: int):
         return a / b
 
-    result_fun = for_testing_foo(10, 5)
-    assert result_fun == 2.0
+    result = for_testing_foo(10, 5)
 
-    # ====== ТЕСТ 2: Вызов исключения - деление на ноль.
+    assert result == 2.0
+    captured = capsys.readouterr()
+    assert "started" in captured.out
+    assert "Ok" in captured.out
 
-    with pytest.raises(Exception, match="division by zero"):
+
+def test_log_exception_console(capsys):
+    """Ошибка без файла — исключение пробрасывается, лог в консоль."""
+
+    @log(filename=None)
+    def for_testing_foo(a: int, b: int):
+        return a / b
+
+    with pytest.raises(ZeroDivisionError, match="division by zero"):
         for_testing_foo(1, 0)
 
-    # ====== ТЕСТ 3: Вызов исключения - недопустимый тип аргументов.
+    captured = capsys.readouterr()
+    assert "error" in captured.out
+    assert "division by zero" in captured.out
 
-    with pytest.raises(Exception, match="unsupported operand type"):
+
+def test_log_exception_wrong_type(capsys):
+    """Ошибка типа — исключение пробрасывается."""
+
+    @log(filename=None)
+    def for_testing_foo(a: int, b: int):
+        return a / b
+
+    with pytest.raises(TypeError, match="unsupported operand"):
         for_testing_foo(1, "0")
 
-    # ====== ТЕСТ 4: Вызов исключения - отсутствие аргументов в вызываемой функции.
+    captured = capsys.readouterr()
+    assert "error" in captured.out
 
-    with pytest.raises(Exception, match="missing 2 required positional arguments"):
+
+def test_log_exception_missing_args(capsys):
+    """Нехватка аргументов — исключение пробрасывается."""
+
+    @log(filename=None)
+    def for_testing_foo(a: int, b: int):
+        return a / b
+
+    with pytest.raises(TypeError, match="missing 2 required positional arguments"):
         for_testing_foo()
 
-
-# ====== ТЕСТ 5: Ошибка в функции — лог в файл ======
+    captured = capsys.readouterr()
+    assert "error" in captured.out
 
 
 def test_error_file(tmp_path):
-    """
-    Что проверяем:
-    1. При ошибке лог записывается в файл.
-    2. В файле есть имя функции и слово об ошибке.
-    """
+    """Ошибка с файлом — лог пишется в файл, исключение пробрасывается."""
+
     log_file = tmp_path / "error.log"
 
     @log(filename=str(log_file))
     def divide(a, b):
         return a / b
 
-    result = divide(10, 0)
+    with pytest.raises(ZeroDivisionError, match="division by zero"):
+        divide(10, 0)
 
-    assert result is None
     content = log_file.read_text(encoding="utf-8")
     assert "by zero" in content.lower()
     assert "divide" in content
 
 
-# ====== ТЕСТ 6: Декоратор сохраняет имя функции ======
-
-
 def test_preserves_name():
-    """
-    Что проверяем:
-    @wraps(func) копирует имя и документацию оригинальной функции.
-    Без @wraps имя было бы "wrapper" — и отладка превратилась бы
-    в угадайку: не понять, какая функция на самом деле вызвана.
-    """
+    """@wraps сохраняет имя и докстринг функции."""
 
     @log(filename=None)
     def my_function():
@@ -73,16 +90,8 @@ def test_preserves_name():
     assert my_function.__doc__ == "Докстринг функции."
 
 
-# ====== ТЕСТ 7: Успешный вызов — лог в файл ======
-
-
 def test_success_file(tmp_path):
-    """
-    Что проверяем:
-    1. Функция возвращает правильный результат.
-    2. Лог записывается в файл (а не в консоль).
-    3. В файле есть сообщения о запуске и завершении.
-    """
+    """Успешный вызов с файлом — результат возвращается, лог в файле."""
 
     log_file = tmp_path / "test.log"
 
@@ -93,12 +102,26 @@ def test_success_file(tmp_path):
     result = add(2, 3)
 
     assert result == 5
-
-    # Файл реально создался
     assert log_file.exists()
 
-    # Читаем содержимое файла
     content = log_file.read_text(encoding="utf-8")
     assert "started" in content
     assert "Ok" in content
     assert "add" in content
+
+
+def test_error_file_contains_inputs(tmp_path):
+    """В файл пишутся аргументы, вызвавшие ошибку."""
+
+    log_file = tmp_path / "error.log"
+
+    @log(filename=str(log_file))
+    def divide(a, b):
+        return a / b
+
+    with pytest.raises(TypeError):
+        divide("строка", 42)
+
+    content = log_file.read_text(encoding="utf-8")
+    assert "Inputs" in content
+    assert "divide" in content
