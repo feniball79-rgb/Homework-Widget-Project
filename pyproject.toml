@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.12"
 poetry-core = "^2.4.1"
 requests = "^2.34.2"
+python-dotenv = "^1.2.3"
 
 [tool.poetry.group.lint.dependencies]
 flake8 = "^7.3.0"
@@ -40,8 +41,13 @@ show_error_codes = true
 warn_unused_ignores = true
 allow_redefinition = true
 ignore_missing_imports = true
-exclude = "venv"
+exclude = "venv|tests/"
 
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_missing_imports = true
+follow_imports = "skip"
 
 [tool.isort]
 profile = "black"
