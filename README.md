@@ -1,3 +1,5 @@
+from my_project.df_readers import get_transactions_csv
+
 # Homework-Widget-Project
 
 Учебный проект: обработка банковских транзакций для виджета.
@@ -12,12 +14,12 @@
 * сортировать, фильтровать по ключам и показывать отчёты выполненных операций;
 * вести лог-журнал операций в файле;
 * читать транзакции из JSON-файла и считать итоговую сумму в рублях с конвертацией валют через API;
-
+* читать транзакции из файлов XLSX, CSV и выводить в JSON формате
 ---
 
 ## Как подключить функции (самое важное для запуска)
 
-Чтобы использовать функции в своём скрипте, нужно сначала их «подключить» через `import`. Вот откуда брать каждую функцию:
+Чтобы использовать функции в своём скрипте, нужно сначала их «подключить» через `import`. Вот, например, откуда брать каждую функцию:
 
 
 ```python
@@ -29,12 +31,14 @@ from src.my_project.decorators import log
 from src.my_project.utils import convert_json_to_python
 from src.my_project.external_api import amound_by_transactions
 from src.my_project.project_root_Path_finder import get_project_root
+from src.my_project.df_readers import get_transactions_xlsx
+from src.my_project.df_readers import get_transactions_csv
 ```
 После этих строк можно спокойно вызывать filter_by_state, get_date и остальные — Python их увидит.
 
 ---
 
-## — filter_by_state —
+# `— filter_by_state —`
 
 Фильтрует список операций по статусам 'EXECUTED' или 'CANCELED'.
 По умолчанию, берёт список операций и возвращает те, у которых статус EXECUTED (по умолчанию).
@@ -65,7 +69,7 @@ result = filter_by_state(operations, state_mode="EXECUTED")
 ```
 ---
 
-##  —sort_by_date—
+#  `—sort_by_date—`
 
 Функция сортирует операции по дате: (по умолчанию) новые будут в начале списка.
 
@@ -92,7 +96,7 @@ sorted_ops = sort_by_date(ops, descending=True)
 **Если у какой-то операции нет даты или она записана странно, эта операция окажется в конце — программа не сломается.**
 
 ---
-## — get_mask_card_number —
+# `— get_mask_card_number —`
 Функция маскирует номер карты (16 цифр), оставляя начало и конец видимыми, а середину прячет за звёздочками.
 
 Пример:
@@ -110,7 +114,7 @@ masked = get_mask_card_number(card)
 
 ---
 
-## —get_mask_account—
+# `— get_mask_account —`
 
 Функция маскирует номер счёта (20 цифр) и оставляет только две звёздочки и последние 4 цифры.
 
@@ -126,7 +130,7 @@ masked = get_mask_account(account)
 "**4305"
 ```
 
-## — mask_account_card —
+# `— mask_account_card —`
 
 Универсальный маскировщик, симбиоз функций - get_mask_account и get_mask_card_number
 
@@ -151,7 +155,7 @@ r2 = mask_account_card(data_2)
 ```
 ---
 
-## — get_date —
+# `— get_date —`
 
 Приводит дату к формату ДД.ММ.ГГГГ
 Функция превращает длинную дату из базы в простой формат, который удобно читать.
@@ -169,7 +173,7 @@ formatted = get_date(date_str)
 ```
 ---
 
-## — filter_by_currency —
+# `— filter_by_currency —`
 
 Возвращает итератор (генератор) по транзакциям, где код валюты совпадает с currency_code.
 
@@ -237,7 +241,7 @@ for _ in range(2):
 ```
 ---
 
-## — transaction_descriptions —
+# `— transaction_descriptions —`
 
 Генератор, возвращающий описание каждой операции по очереди.
 
@@ -324,7 +328,7 @@ for _ in range(5):
 ```
 ---
 
-## —card_number_generator—
+# `— card_number_generator —`
 
 Генератор номеров банковских карт в формате XXXX XXXX XXXX XXXX.
 
@@ -347,7 +351,7 @@ for card_number in card_number_generator(1, 5):
 ```
 ---
 
-## — log —
+# `— log —`
 
 Функция-декоратор, выполняет ведение записей всех событий результатов работы декорируемой функции в файл или в консоль. И обрабатывает все выпадающие исключения.
 
@@ -407,7 +411,7 @@ ZeroDivisionError: division by zero
 ```
 ---
 
-## — get_project_root —
+# `— get_project_root —`
 
 Функция находит корневую папку проекта и возвращает путь к ней как объект Path.
 
@@ -464,7 +468,7 @@ def convert_json_to_python(filename: str) -> list[dict]:
 ```
 ---
 
-## — convert_json_to_python —
+# `— convert_json_to_python —`
 
 Читает JSON-файл из папки data/ и возвращает содержимое как список словарей.
 
@@ -506,7 +510,7 @@ print(data)
 ```
 ---
 
-## — amound_by_transactions —
+# `— amound_by_transactions —`
 
 Читает JSON-файл с транзакциями через convert_json_to_python, суммирует суммы в рублях и конвертирует USD и EUR в RUB через внешний API (apilayer.com).
 
@@ -536,6 +540,34 @@ print(total)
 Транзакции в файле могут содержать RUB, USD и EUR — функция сама определит валюту по полю *operationAmount.currency.code* и конвертирует через API.
 
 Если сумма в иностранной валюте равна `0` — то API не вызывается (экономия запросов).
+---
+---
+
+# `- get_transactions_csv -` 
+
+Читает файл форматы CSV и выводит его содержимое в виде списка словарей.
+
++ Указать нужно только название файла при вызове функции, она сама находит к нему путь (в пределах вашего проекта)
+
+Пример запуска:
+```python
+result = get_transactions_csv('transactions.csv')
+print(result)
+```
+---
+# `- get_transactions_xlsx -`
+
+Читает файл форматы XLSX и выводит его содержимое в виде списка словарей.
+
++ Указать нужно только название файла при вызове функции, она сама находит к нему путь (в пределах вашего проекта)
+
+Пример запуска:
+
+```python
+result = get_transactions_xlsx('transactions.csv')
+print(result)
+```
+---
 
 ## ~ Как использовать функции вместе ~
 
@@ -549,7 +581,7 @@ print(total)
    
 ---
 ---
-## ~ Как запустить проект (Windows, PowerShell) ~
+## ~ Как запустить проект (на Windows, в PowerShell) ~
 
 Клонируем проект:
 
@@ -581,7 +613,7 @@ poetry run mypy src
 
 ---
 
-## ~ Структура папок ~
+# ~ Структура папок ~
 
 ```python
 ├my-project/
@@ -753,5 +785,4 @@ amound_by_transactions
     
 ---
 
-## Общее покрытие кода тестами: 86%.
-можно ознакомиться с результатами тестов в файле - htmlcov
+## `Общее покрытие кода тестами: 86%.`
