@@ -27,7 +27,7 @@ def convert_json_to_python(filename: str) -> List[dict[str, Any]]:
     try:
         with open(file_path, encoding="utf-8") as f:
             data = json.load(f)
-            # Явно проверяем, что это список, чтобы успокоить mypy
+            # Явно проверяем, что это список
             if not isinstance(data, list):
                 print("Ошибка: ожидался список в JSON")
                 utils_logger.error(f"Ошибка: ожидался список в JSON в файле {filename}")
@@ -53,6 +53,7 @@ def convert_json_to_python(filename: str) -> List[dict[str, Any]]:
         return []
 
 
-# if __name__ == "__main__":
-#     converted = convert_json_to_python("operations.json")
-#     print(converted)
+if __name__ == "__main__":
+
+    converted = convert_json_to_python("operations.json")
+    print(converted)
