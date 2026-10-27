@@ -51,13 +51,13 @@ def log(filename: Optional[str] = None) -> Callable[[Callable[..., Any]], Callab
     return logger
 
 
-if __name__ == "__main__":
-
-    @log()  # filename="LOG.txt"
-    def add_iti_ons(a: int | float, b: int | float) -> str:
-        if b == 0:
-            raise ZeroDivisionError("Деление на ноль")
-        return f"ОТВЕТ: {a / b}"
-
-    result_fin = add_iti_ons(7, 5)
-    print(result_fin)
+# if __name__ == "__main__":
+#
+#     @log()  # filename="LOG.txt"
+#     def add_iti_ons(a: int | float, b: int | float) -> str:
+#         if b == 0:
+#             raise ZeroDivisionError("Деление на ноль")
+#         return f"ОТВЕТ: {a / b}"
+#
+#     result_fin = add_iti_ons(7, 5)
+#     print(result_fin)
