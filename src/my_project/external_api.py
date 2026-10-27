@@ -67,7 +67,7 @@ def amount_by_transactions(filename: str) -> float:
     return round(total_rub, 2)
 
 
-if __name__ == "__main__":
-    test_res = amount_by_transactions("operations.json")
-    print(test_res)
-    print(type(test_res))
+# if __name__ == "__main__":
+#     test_res = amount_by_transactions("operations.json")
+#     print(test_res)
+#     print(type(test_res))
