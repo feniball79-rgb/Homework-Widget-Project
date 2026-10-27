@@ -44,12 +44,12 @@ def get_mask_card_number(card_number: str) -> str:
     return nbr_mask_parts
 
 
-if __name__ == "__main__":
-    result = get_mask_card_number("7000792289606361")
-    print(result)
-
-
-# "7000792289606361"
+# if __name__ == "__main__":
+#     result = get_mask_card_number("7000792289606361")
+#     print(result)
+#
+#
+# # "7000792289606361"
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -103,4 +103,4 @@ def get_mask_account(acc_nmbr: str) -> str:
 #     result = get_mask_account("73654108430135874305")
 #     print(result)
 
-# "73654108430135874305"
+## "73654108430135874305"

@@ -53,7 +53,7 @@ def convert_json_to_python(filename: str) -> List[dict[str, Any]]:
         return []
 
 
-if __name__ == "__main__":
-
-    converted = convert_json_to_python("operations.json")
-    print(converted)
+# if __name__ == "__main__":
+#
+#     converted = convert_json_to_python("operations.json")
+#     print(converted)
