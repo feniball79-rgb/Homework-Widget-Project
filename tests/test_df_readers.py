@@ -31,7 +31,7 @@ def test_get_transactions_csv_success():
         # Проверяем, что open вызвали с нужными аргументами
         mock_open.assert_called_once()
         _, kwargs = mock_open.call_args
-        assert kwargs.get("encoding") == "utf-8"
+        assert kwargs.get("encoding") in ("utf-8", "utf-8-sig")
         assert kwargs.get("newline") == ""
 
         # Проверяем результат
@@ -59,7 +59,7 @@ def test_get_transactions_csv_file_not_found(mock_open):
     mock_open.assert_called_once()
 
 
-print("*****************************************")
+
 
 
 @patch("my_project.df_readers.pd.read_excel")

@@ -6,10 +6,11 @@ import pandas as pd
 from my_project.project_root_Path_finder import get_project_root
 
 
-def get_transactions_csv(filename: str) -> list[Any]:
+def get_transactions_csv(filename: str, delimiter: str = ",") -> list[Any]:
     """
     Читает CSV-файл с финансовыми операциями и возвращает список словарей.
 
+    :param delimiter:
     :param filename: имя CSV-файла (без пути, только имя файла)
     :return: list[dict] — список транзакций
     :raises FileNotFoundError: если файл не найден
@@ -22,17 +23,16 @@ def get_transactions_csv(filename: str) -> list[Any]:
     if file_path.suffix.lower() != ".csv":
         raise ValueError(f"Ожидается CSV-файл, но передано: {filename}")
 
-    with open(file_path, encoding="utf-8", newline="") as f:
-        reader = csv.DictReader(f)
+    with open(file_path, encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f, delimiter=delimiter)
         # Если CSV пустой или нет заголовков, DictReader всё равно вернёт пустой список
         return list(reader)
 
 
-if __name__ == "__main__":
-    res = get_transactions_csv("transactions.csv")
-    print(res)
-
-print("******************************************************")
+# if __name__ == "__main__":
+#     res = get_transactions_csv("transactions.csv")
+#     print(res)
+#     # print(len([x["state"] for x in res if x["state"] == "EXECUTED"]))
 
 
 def get_transactions_xlsx(filename: str) -> Any:
@@ -60,6 +60,6 @@ def get_transactions_xlsx(filename: str) -> Any:
     return df.to_dict(orient="records")
 
 
-if __name__ == "__main__":
-    res = get_transactions_xlsx("transactions_excel.xlsx")
-    print(res)
+# if __name__ == "__main__":
+#     res = get_transactions_xlsx("transactions_excel.xlsx")
+#     print(type(res))
