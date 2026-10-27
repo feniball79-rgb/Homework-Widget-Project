@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 
-ALLOWED_STATES = {"EXECUTED", "CANCELED"}  # можно расширить, если появятся новые статусы
+ALLOWED_STATES = {"EXECUTED", "CANCELED", "PENDING"}  # можно расширить, если появятся новые статусы
 
 
 def filter_by_state(records: List[Dict[str, Any]], state_mode: str = "EXECUTED") -> List[Dict[str, Any]]:
@@ -12,7 +12,7 @@ def filter_by_state(records: List[Dict[str, Any]], state_mode: str = "EXECUTED")
     :param state_mode: значение для ключа 'state', по умолчанию 'EXECUTED'
     :return: отфильтрованный список словарей
     """
-    # Если нужна строгая валидация, раскомментируй блок ниже:
+    # Если нужна строгая валидация, раскомментируй этот блок:
     if state_mode not in ALLOWED_STATES:
         raise ValueError(f"state_mode должен быть одним из {ALLOWED_STATES}")
 
@@ -69,8 +69,8 @@ def sort_by_date(records: List[Dict[str, Any]], descending: bool = True) -> List
     if not records:
         raise ValueError("Нельзя вводить пустой список словарей.")
 
-    def get_sort_key(record: Dict[str, Any]) -> Tuple[int, Optional[datetime]]:
-        date_str = record.get("date")
+    def get_sort_key(records: Dict[str, Any]) -> Tuple[int, Optional[datetime]]:
+        date_str = records.get("date")
         if not date_str:
             return 1, None
 
@@ -88,10 +88,16 @@ def sort_by_date(records: List[Dict[str, Any]], descending: bool = True) -> List
 
 # if __name__ == "__main__":
 #
-#      print(sort_by_date([{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
-#             {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
-#             {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
-#             {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}],
-#            False))
-
-#    print(sort_by_date(["  "]))
+#     print(
+#         sort_by_date(
+#             [
+#                 {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+#                 {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+#                 {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+#                 {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+#             ],
+#             False,
+#         )
+#     )
+#
+#     # print(sort_by_date(["  "]))
