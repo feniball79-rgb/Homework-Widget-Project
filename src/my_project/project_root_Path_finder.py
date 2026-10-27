@@ -9,7 +9,16 @@ def get_project_root() -> Path:
     с помощью Poetry.
     НО !! можно любой другой ориентировочный маркер подставить из корня
     проекта - например, .gitignore, README.md или другие...
-    Можно импортировать и использовать в других функциях"""
+    Можно импортировать и использовать в других функциях
+
+    Как вызывать:
+    "data" - название вашей папки, где находится читаемый файл.
+    filename - произвольное название переменной в вашей функции, с именем читаемого файла в ней.
+    _________________________
+    root = get_project_root()
+    file_path = root / "data" / filename
+    _________________________
+    """
 
     current = Path(__file__).resolve()
     while current != current.parent:
@@ -17,3 +26,20 @@ def get_project_root() -> Path:
             return current
         current = current.parent
     return current
+
+
+"""
+ПРИМЕР использования функции.
+
+# Открываем файл JSON с данными о транзакциях для тестирования функции - process_bank_search()
+def data_reader_for_process():
+    root = get_project_root()
+    file_path = root / "data" / 'operations.json'
+    with open(file_path, encoding='utf-8') as f:
+        data_list = json.load(f)
+    return data_list
+
+if __name__ == "__main__":
+    res = data_reader_for_process()
+    print(res)
+"""
